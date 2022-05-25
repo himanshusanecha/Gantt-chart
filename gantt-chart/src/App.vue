@@ -27,5 +27,11 @@ export default {
   margin-right: auto;
   width: 100vw;
   overflow-x: hidden;
+  /* -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; */
 }
 </style>

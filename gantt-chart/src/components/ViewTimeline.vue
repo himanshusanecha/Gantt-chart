@@ -13,36 +13,49 @@
 </div>
 
         </div>
-        <button class="button" @click="click()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus add" viewBox="0 0 18 18">
+        <button class="button" @click="addsection()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus add" viewBox="0 0 18 18">
   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-</svg> Add section</button>
+</svg> Add Section</button>
       </div>
-      <div class=" card-height border card2" id="infinite" infinite-wrapper style=" overflow: auto;">
+
+
+
+      <div class=" card-height border card2" id="infinite" infinite-wrapper style="text-align:left;overflow: auto;">
         <div class="timeline">
           <li v-for="(index,j) in list" :key="j" style="display: inline; overflow-y: hidden; font-size: 0.8em" class="px-3">{{index}}</li>
         </div>
         
         <div v-for="(list, index) in list1" :key="index" class="dragboard">
            <draggable :list="list" group="my-group" class="dragline" @add="addedLog" @remove="removedLog" style="min-height: 50px">
-            <li v-for="element in list" :key="element.name"  style="display: inline;" class="dragli">
+            <div v-for="(element,j) in list" :key="j"  style="display: inline;" class="dragli">
               
            
-              <span class="element">{{ element.name }}</span>
-               <!-- <span class="drag" >
-                 <span class="element ">{{ element.name }}</span>
-            </span> -->
-            </li>
+              <input type="text" class="element" v-model="element.name" />
+               
+            </div>
           </draggable>
+          
           <div class="fix">
             <div class="borderb"></div>
 
           </div>
+          
           <!-- <draggable :list="list2" group="my-group" class="dragline" @add="addedLog" @remove="removedLog" style="min-height: 50px">
             <li v-for="element in list2" class="border m-2 p-2 element" :key="element.name" style="display: inline;">
               {{ element.name }}
             </li>
           </draggable> -->
         </div>
+        <button class="button button2" @click="addtask()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus add" viewBox="0 0 18 18">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg> Add Task</button>
+ <!-- <draggable :group="{name: 'sameGroup', put: true, pull: false}" ghostClass="display:none" draggable=".draggable"  class="">
+    <div style="color:red" class="hover">
+     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash3 font-weight-bold" viewBox="0 0 20 20">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+</svg> Delete Task
+    </div>
+           </draggable> -->
       </div>
     </div>
 </template>
@@ -75,7 +88,12 @@ export default {
     nameChange(i){
       console.log(i)
     },
-    click()
+    addtask()
+    {
+      this.list1[this.list1.length -1].push({ name: "Untitled Task", section: this.list1.length -1})
+    },
+
+    addsection()
     {
     this.sections.push({value : 'Untitled Section'})
     console.log(this.sections)
@@ -158,30 +176,60 @@ export default {
 
 .dragline
 {
-  min-height: 50px;
   height: 50px;
-  line-height: 49px;
   position: relative;
   padding-top: 2.5px;
 
 }
+/* .dragli{
+  display: flex;
+  align;
 
+} */
 .element
 {
-  z-index: 5;
+outline: none;
+border: none;
+z-index: 5;
 border: 1px solid #e1e1e1;
 padding: 7px 20px;
-margin: 0 5px;
+margin: 3px 5px;
 border-radius: 4px;
 background-color: white;
+resize: both;
 }
 
-.element:hover{
+
+.element:focus
+{
+outline: none;
+  border: 2px solid #0091ff;
+  border-right: 10px solid #0091ff;
+  border-left: 10px solid #0091ff;
+  padding: 6px 11px;
+  resize: both;
+}
+.element:hover   {
+  outline: none;
   border: 2px solid blue;
   border-right: 10px solid blue;
   border-left: 10px solid blue;
-  padding: 7px 11px;
+  padding:6px 11px;
+  resize: both;
 }
+.element:active
+{
+  outline: none;
+border: none;
+z-index: 5;
+border: 1px solid #750909;
+padding: 7px 20px;
+margin: 3px 5px;
+border-radius: 4px;
+background-color: white;
+resize: both;
+}
+
 /* .dragli{
   position: relative;
 }
@@ -254,6 +302,13 @@ border-radius: 5px;
   transition: all linear 0.2s;
  
 }
+.button2
+{
+ transform: translateX(5px);
+ background-color: #ededed;
+color: rgb(0, 0, 0);
+
+}
 .button:hover
 {
   transition: all linear 0.2s;
@@ -290,5 +345,9 @@ transform-origin: center;
   
   box-shadow: 0px 0px 2px #ededed;
   color: black;
+}
+
+.hover:hover{
+  /* transform: scale(1.1); */
 }
 </style>
